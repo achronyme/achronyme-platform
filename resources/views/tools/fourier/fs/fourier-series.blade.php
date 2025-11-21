@@ -108,7 +108,7 @@
                         <x-app-ui.secondary-button type="button" @click.prevent="addFunction()">
                             <div class="flex space-x-2 items-center">
                                 <svg class="size-5 -ml-0.5" fill="currentColor"><use href="#icon-plus"></use></svg>
-                                <div>Agregar función</div>
+                                <div>Agregar</div>
                             </div>
                         </x-app-ui.secondary-button>
                     </div>

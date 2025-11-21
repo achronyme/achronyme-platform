@@ -11,6 +11,7 @@ Route::get('/fourier-series', [ToolController::class, 'fourierSeries'])->name('f
 Route::get('/fourier-transform', [ToolController::class, 'fourierTransform'])->name('fourier-transform');
 Route::get('/convolution', [ToolController::class, 'convolution'])->name('convolution');
 Route::get('/agent-visualizer', [ToolController::class, 'agentVisualizer'])->name('agent-visualizer');
+Route::get('/graphical-method', [ToolController::class, 'graphicalMethod'])->name('graphical-method');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
