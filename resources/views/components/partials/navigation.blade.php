@@ -96,11 +96,11 @@
                 </svg>
               </div>
               <div class="flex-auto">
-                <a href="#" class="block font-semibold text-gray-900 dark:text-white">
-                  Documentación del Sitio
+                <a href="https://docs.achrony.me" class="block font-semibold text-gray-900 dark:text-white">
+                  Documentación
                   <span class="absolute inset-0"></span>
                 </a>
-                <p class="mt-1 text-gray-600 dark:text-gray-400">Aprende a usar las herramientas de procesamiento de señales.</p>
+                <p class="mt-1 text-gray-600 dark:text-gray-400">Aprende a usar las herramientas y nuestro lenguaje de programación.</p>
               </div>
             </div>
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50 dark:hover:bg-white/5">
@@ -110,7 +110,7 @@
                 </svg>
               </div>
               <div class="flex-auto">
-                <a href="https://github.com/eddndev/achronyme" target="_blank" class="block font-semibold text-gray-900 dark:text-white">
+                <a href="https://github.com/achronyme/achronyme-platform" target="_blank" class="block font-semibold text-gray-900 dark:text-white">
                   Repositorio GitHub
                   <span class="absolute inset-0"></span>
                 </a>
@@ -258,15 +258,15 @@
                   </a>
                 </div>
                 <div class="space-y-2 py-6">
-                  <a href="#" class="group -mx-3 flex items-center gap-x-6 rounded-lg p-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+                  <a href="https://docs.achrony.me" class="group -mx-3 flex items-center gap-x-6 rounded-lg p-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
                     <div class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white dark:bg-gray-800 dark:group-hover:bg-gray-700">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-gray-600 group-hover:text-purple-blue-600 dark:text-gray-300 dark:group-hover:text-white">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                       </svg>
                     </div>
-                    Documentación del Sitio
+                    Documentación
                   </a>
-                  <a href="https://github.com/eddndev/achronyme" target="_blank" class="group -mx-3 flex items-center gap-x-6 rounded-lg p-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+                  <a href="https://github.com/achronyme/achronyme-platform" target="_blank" class="group -mx-3 flex items-center gap-x-6 rounded-lg p-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
                     <div class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white dark:bg-gray-800 dark:group-hover:bg-gray-700">
                       <svg viewBox="0 0 24 24" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-6 text-gray-600 group-hover:text-purple-blue-600 dark:text-gray-300 dark:group-hover:text-white">
                         <use href="#icon-github" />
