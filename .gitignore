@@ -18,6 +18,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/public/build
 Homestead.json
 Homestead.yaml
 Thumbs.db
