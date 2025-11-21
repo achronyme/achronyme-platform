@@ -13,6 +13,9 @@
 </div>
 
 <div align="center">
+  <a href="https://github.com/eddndev/achronyme/actions/workflows/deploy.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/eddndev/achronyme/deploy.yml?branch=main&style=for-the-badge&label=DEPLOY&logo=github&logoColor=white" alt="Deploy Status">
+  </a>
   <img src="https://img.shields.io/badge/PHP-%3E%3D8.2-8A2BE2?style=for-the-badge&logo=php&logoColor=white" alt="PHP version">
   <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
   <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
