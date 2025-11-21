@@ -11,25 +11,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Obtener el código fuente del repositorio
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Preparar entorno Node.js (para compilar assets)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # 3. Instalar dependencias de Frontend y Compilar
-      # Esto genera la carpeta 'public/build' usando la CPU de GitHub, no la de Hostgator.
       - name: Install & Build Assets
         run: |
           npm ci
           npm run build
 
-      # 4. Subir SOLO los assets compilados al servidor
-      # Usamos SCP para transferir la carpeta 'public/build' que acabamos de generar.
       - name: Upload Built Assets to Hostgator
         uses: appleboy/scp-action@master
         with:
@@ -39,11 +33,7 @@ jobs:
           port: 2222
           source: "public/build"
           target: ${{ secrets.PROJECT_PATH }}
-          # 'strip_components' ayuda a que no se cree una ruta anidada extraña.
-          # Si source es 'public/build', esto lo copiará dentro de 'PROJECT_PATH/public/build' correctamente.
 
-      # 5. Conexión SSH para tareas de Backend
-      # Aquí actualizamos el código PHP y base de datos.
       - name: Deploy Backend via SSH
         uses: appleboy/ssh-action@master
         with:
@@ -54,33 +44,39 @@ jobs:
           script: |
             set -e
             
-            # Definir variables para limpieza (Tu ruta de PHP 8.3)
+            # --- CONFIGURACIÓN DE RUTAS ---
+            # Tu PHP 8.3 real
             PHP_BIN="/opt/cpanel/ea-php83/root/usr/bin/php"
-            COMPOSER_BIN="/usr/local/bin/composer"  # Composer suele estar aquí globalmente
+            # La ruta de Composer que encontraste
+            COMPOSER_BIN="/opt/cpanel/composer/bin/composer"
 
-            echo " Iniciando despliegue usando PHP 8.3..."
+            echo "🚀 Iniciando despliegue usando PHP 8.3 y Composer de sistema..."
             
             cd ${{ secrets.PROJECT_PATH }}
 
-            # Poner en mantenimiento
+            # 1. Poner en mantenimiento
             $PHP_BIN artisan down || true
 
-            # Descargar cambios (ignora public/build si pusiste el .gitignore)
+            # 2. Descargar código (Git Pull)
             git pull origin main
 
-            # Instalar dependencias con PHP 8.3 explícitamente
+            # 3. Instalar dependencias
+            # Usamos $PHP_BIN delante de $COMPOSER_BIN para asegurar que Composer
+            # se ejecute con la versión 8.3 y no con la del sistema por defecto.
             export COMPOSER_ALLOW_SUPERUSER=1
             $PHP_BIN $COMPOSER_BIN install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
-            # Migraciones y Cachés
+            # 4. Migraciones y Limpieza
             $PHP_BIN artisan migrate --force
+            
+            echo "🧹 Limpiando cachés..."
             $PHP_BIN artisan optimize:clear
             $PHP_BIN artisan config:cache
             $PHP_BIN artisan event:cache
             $PHP_BIN artisan route:cache
             $PHP_BIN artisan view:cache
 
-            # Levantar sitio
+            # 5. Levantar el sitio
             $PHP_BIN artisan up
             
-            echo "✅ Despliegue en Hostgator con PHP 8.3 completado."
+            echo "✅ ¡Despliegue Exitoso!"
