@@ -19,7 +19,6 @@ $breadcrumbs = [
     @include('tools.optimization.simplex.simplex-content')
 
     <x-slot:scripts>
-        {{-- Por ahora comentado hasta que creemos la lógica JS --}}
-        {{-- @vite('resources/js/optimization/simplex/app.ts') --}}
+        @vite('resources/js/optimization/simplex/app.ts')
     </x-slot>
 </x-tool-layout>
