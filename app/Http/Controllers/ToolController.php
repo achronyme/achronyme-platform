@@ -56,4 +56,13 @@ class ToolController extends Controller
         // Retorna la vista principal del módulo simplex
         return view('tools.optimization.simplex.index');
     }
+
+    /**
+     * Display the dual simplex method tool page.
+     */
+    public function dualSimplexMethod(): View
+    {
+        // Retorna la vista principal del módulo dual simplex
+        return view('tools.optimization.dual-simplex.index');
+    }
 }
