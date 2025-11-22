@@ -42,7 +42,8 @@ export class DualSimplexEngine {
         const history: Tableau[] = [];
 
         // Si es minimización, convertimos a max(-Z)
-        const actualObjective = objectiveType === 'min'
+        const isMinimization = objectiveType === 'min';
+        const actualObjective = isMinimization
             ? Object.fromEntries(Object.entries(objective).map(([k, v]) => [k, math.format(math.multiply(math.fraction(v), -1), { fraction: 'ratio' })]))
             : objective;
 
@@ -76,8 +77,13 @@ export class DualSimplexEngine {
             const rowValues: any[] = [];
 
             // Variables de decisión
+            // Si la restricción es >=, multiplicamos los coeficientes por -1 para mantener consistencia
             decisionVars.forEach(dv => {
-                rowValues.push(math.fraction(c.coefficients[dv] || 0));
+                let coef = math.fraction(c.coefficients[dv] || 0);
+                if (c.operator === '>=') {
+                    coef = math.multiply(coef, -1);
+                }
+                rowValues.push(coef);
             });
 
             // Variables de holgura (para <=)
@@ -92,14 +98,20 @@ export class DualSimplexEngine {
             // Variables de exceso (para >=)
             surplusVars.forEach((ev, j) => {
                 if (c.operator === '>=' && surplusIdx === j) {
-                    rowValues.push(math.fraction(-1)); // Exceso es -1
+                    // Como multiplicamos la restricción por -1, el coeficiente de exceso es 1
+                    rowValues.push(math.fraction(1));
                 } else {
                     rowValues.push(math.fraction(0));
                 }
             });
 
-            // RHS (puede ser negativo en el dual simplex)
-            rowValues.push(math.fraction(c.rhs));
+            // RHS - Para restricciones >=, multiplicamos por -1 para obtener forma estándar
+            // Esto hace que el problema sea dual factible pero primal infactible inicialmente
+            let rhsValue = math.fraction(c.rhs);
+            if (c.operator === '>=') {
+                rhsValue = math.multiply(rhsValue, -1); // Negativo para infactibilidad primal inicial
+            }
+            rowValues.push(rhsValue);
 
             // La variable base inicial depende del operador
             let baseVar: string;
@@ -122,12 +134,18 @@ export class DualSimplexEngine {
         });
 
         // Fila Z (Cj - Zj)
-        // En el dual simplex, iniciamos con dual factibilidad (todos los coeficientes >= 0)
+        // Para el Dual Simplex, necesitamos calcular los costos reducidos correctamente
+        // Los coeficientes iniciales deben ser no-negativos para dual factibilidad
         const zRowValues: any[] = [];
+
+        // Para las variables de decisión
         decisionVars.forEach(dv => {
-            const val = math.fraction(actualObjective[dv] || 0);
-            zRowValues.push(math.multiply(val, -1)); // -Cj
+            const cj = math.fraction(actualObjective[dv] || 0);
+            // En el Dual Simplex para minimización con restricciones >=,
+            // comenzamos con los coeficientes originales negados
+            zRowValues.push(math.multiply(cj, -1));
         });
+
         // Holguras y excesos tienen costo 0
         [...slackVars, ...surplusVars].forEach(() => zRowValues.push(math.fraction(0)));
 
