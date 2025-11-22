@@ -55,6 +55,13 @@ class HomeController extends Controller
                 'target' => '_blank'
             ],
             [
+                'title' => 'Análisis Sensitivo en C',
+                'description' => 'Resuelve problemas de programación lineal paso a paso mediante iteraciones tabulares.',
+                'url' => route("sensitivity-analysis"),
+                'icon' => 'icon-tune',
+                'target' => '_blank'
+            ],
+            [
                 'title' => 'Visualizador de Agentes',
                 'description' => 'Explora algoritmos de búsqueda (BFS/DFS) en entornos de agentes.',
                 'url' => route("agent-visualizer"),

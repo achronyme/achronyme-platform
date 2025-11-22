@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/js/optimization/graphical/app.ts',
                 'resources/js/optimization/simplex/app.ts',
                 'resources/js/optimization/dual-simplex/app.ts',
+                'resources/js/optimization/sensitivity/app.ts',
             ],
             refresh: true,
         }),

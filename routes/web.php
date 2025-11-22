@@ -14,6 +14,7 @@ Route::get('/agent-visualizer', [ToolController::class, 'agentVisualizer'])->nam
 Route::get('/graphical-method', [ToolController::class, 'graphicalMethod'])->name('graphical-method');
 Route::get('/simplex-method', [ToolController::class, 'simplexMethod'])->name('simplex-method');
 Route::get('/dual-simplex-method', [ToolController::class, 'dualSimplexMethod'])->name('dual-simplex-method');
+Route::get('/sensitivity-analysis', [ToolController::class, 'sensitivityAnalysis'])->name('sensitivity-analysis');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

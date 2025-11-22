@@ -65,4 +65,13 @@ class ToolController extends Controller
         // Retorna la vista principal del módulo dual simplex
         return view('tools.optimization.dual-simplex.index');
     }
+
+    /**
+     * Display the sensitivity analysis tool page.
+     */
+    public function sensitivityAnalysis(): View
+    {
+        // Retorna la vista principal del módulo de análisis de sensibilidad
+        return view('tools.optimization.sensitivity.index');
+    }
 }
