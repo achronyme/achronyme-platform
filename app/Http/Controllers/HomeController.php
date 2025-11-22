@@ -48,6 +48,13 @@ class HomeController extends Controller
                 'target' => '_blank'
             ],
             [
+                'title' => 'Dual Simplex',
+                'description' => 'Resuelve problemas de programación lineal paso a paso mediante iteraciones tabulares.',
+                'url' => route("dual-simplex-method"),
+                'icon' => 'icon-table-view',
+                'target' => '_blank'
+            ],
+            [
                 'title' => 'Visualizador de Agentes',
                 'description' => 'Explora algoritmos de búsqueda (BFS/DFS) en entornos de agentes.',
                 'url' => route("agent-visualizer"),

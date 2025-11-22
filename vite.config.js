@@ -13,6 +13,7 @@ export default defineConfig({
                 'resources/js/agents/app.ts',
                 'resources/js/optimization/graphical/app.ts',
                 'resources/js/optimization/simplex/app.ts',
+                'resources/js/optimization/dual-simplex/app.ts',
             ],
             refresh: true,
         }),
