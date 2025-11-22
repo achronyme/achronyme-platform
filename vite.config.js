@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/convolution/app.ts',
                 'resources/js/agents/app.ts',
                 'resources/js/optimization/graphical/app.ts',
+                'resources/js/optimization/simplex/app.ts',
             ],
             refresh: true,
         }),

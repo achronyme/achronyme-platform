@@ -12,7 +12,7 @@ Route::get('/fourier-transform', [ToolController::class, 'fourierTransform'])->n
 Route::get('/convolution', [ToolController::class, 'convolution'])->name('convolution');
 Route::get('/agent-visualizer', [ToolController::class, 'agentVisualizer'])->name('agent-visualizer');
 Route::get('/graphical-method', [ToolController::class, 'graphicalMethod'])->name('graphical-method');
-
+Route::get('/simplex-method', [ToolController::class, 'simplexMethod'])->name('simplex-method');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -33,12 +33,18 @@ class HomeController extends Controller
                 'icon' => 'icon-conv',
                 'target' => '_blank'
             ],
-            // --- NUEVO: Método Gráfico ---
             [
                 'title' => 'Método Gráfico',
                 'description' => 'Resolver problemas de optimización lineal (2 variables) visualizando la región factible.',
                 'url' => route("graphical-method"),
-                'icon' => 'icon-area-chart', // O 'icon-area-chart' si usas SVGs locales
+                'icon' => 'icon-area-chart',
+                'target' => '_blank'
+            ],
+            [
+                'title' => 'Método Simplex',
+                'description' => 'Resuelve problemas de programación lineal paso a paso mediante iteraciones tabulares.',
+                'url' => route("simplex-method"),
+                'icon' => 'icon-table-view',
                 'target' => '_blank'
             ],
             [

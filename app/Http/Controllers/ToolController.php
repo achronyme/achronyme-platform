@@ -39,9 +39,21 @@ class ToolController extends Controller
         return view('tools.agents.index');
     }
 
-    public function graphicalMethod()
+    /**
+     * Display the graphical method tool page.
+     */
+    public function graphicalMethod(): View
     {
         // Retorna la vista principal del módulo gráfico
         return view('tools.optimization.graphical.index');
+    }
+
+    /**
+     * Display the simplex method tool page.
+     */
+    public function simplexMethod(): View
+    {
+        // Retorna la vista principal del módulo simplex
+        return view('tools.optimization.simplex.index');
     }
 }

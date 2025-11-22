@@ -1,20 +1,23 @@
 @props([
     'label' => '',
-    'addon',
-    'position' => 'left', // 'left' or 'right'
+    'addon' => '',    // Contenido estático (PHP)
+    'xAddon' => null, // NUEVO: Contenido dinámico (JS/Alpine)
+    'position' => 'left',
     'type' => 'text',
-    'name',
+    'name' => null,
     'id' => null,
     'placeholder' => '',
     'value' => '',
     'optional' => false,
     'optionalText' => 'Optional',
     'error' => false,
-    'errorModel' => null // Alpine.js error state variable name (e.g., 'fieldName_error')
+    'errorModel' => null
 ])
 
 @php
-    $inputId = $id ?? $name;
+    // Generar ID único si no se provee (crítico para loops de Alpine)
+    $inputId = $id ?? $name ?? 'input-' . md5(uniqid());
+    
     $baseInputClasses = 'block w-full grow bg-white px-3 py-1.5 text-base text-slate-900 outline-1 -outline-offset-1 outline-slate-300 placeholder:text-slate-400 focus:outline-2 focus:-outline-offset-2 focus:outline-purple-blue-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-slate-700 dark:placeholder:text-slate-500 dark:focus:outline-purple-blue-500';
     $addonClasses = 'flex shrink-0 items-center px-3 text-base text-slate-500 sm:text-sm/6 bg-white dark:bg-white/5 dark:text-slate-400 outline-1 -outline-offset-1 outline-slate-300 dark:outline-slate-700';
     $errorClass = $error ? 'outline-red-300 focus:outline-red-600 dark:outline-red-700 dark:focus:outline-red-500' : '';
@@ -30,15 +33,22 @@
             @endif
         </div>
     @endif
+    
     <div class="@if($label) mt-2 @endif grid grid-cols-1">
         <div class="col-start-1 row-start-1 flex">
             @if ($position === 'left')
+                {{-- ADDON IZQUIERDO --}}
                 <div class="{{ $addonClasses }} rounded-l-md {{ $errorAddonClass }}"
-                    @if($errorModel) :class="{{ $errorModel }} ? 'outline-red-300 dark:outline-red-700 text-red-500 dark:text-red-400' : ''" @endif
-                >{{ $addon }}</div>
+                     {{-- Aquí está la clave de la compatibilidad --}}
+                     @if($xAddon) x-text="{{ $xAddon }}" @endif
+                     @if($errorModel) :class="{{ $errorModel }} ? 'outline-red-300 dark:outline-red-700 text-red-500 dark:text-red-400' : ''" @endif
+                >
+                    {{ $addon }}
+                </div>
+                
                 <input
                     type="{{ $type }}"
-                    name="{{ $name }}"
+                    @if($name) name="{{ $name }}" @endif
                     id="{{ $inputId }}"
                     placeholder="{{ $placeholder }}"
                     value="{{ $value }}"
@@ -47,11 +57,14 @@
                     @if($errorModel)
                         :class="{{ $errorModel }} ? 'outline-red-300 focus:outline-red-600 dark:outline-red-700 dark:focus:outline-red-500' : ''"
                     @endif
+                    {{-- Pasamos atributos extras de Alpine (x-model, etc) --}}
+                    {{ $attributes->filter(fn ($value, $key) => str_starts_with($key, 'x-')) }}
                 />
             @else
+                {{-- ADDON DERECHO --}}
                 <input
                     type="{{ $type }}"
-                    name="{{ $name }}"
+                    @if($name) name="{{ $name }}" @endif
                     id="{{ $inputId }}"
                     placeholder="{{ $placeholder }}"
                     value="{{ $value }}"
@@ -60,20 +73,27 @@
                     @if($errorModel)
                         :class="{{ $errorModel }} ? 'outline-red-300 focus:outline-red-600 dark:outline-red-700 dark:focus:outline-red-500' : ''"
                     @endif
+                    {{ $attributes->filter(fn ($value, $key) => str_starts_with($key, 'x-')) }}
                 />
+                
                 <div class="-ml-px {{ $addonClasses }} rounded-r-md {{ $errorAddonClass }}"
-                    @if($errorModel) :class="{{ $errorModel }} ? 'outline-red-300 dark:outline-red-700 text-red-500 dark:text-red-400' : ''" @endif
-                >{{ $addon }}</div>
+                     @if($xAddon) x-text="{{ $xAddon }}" @endif
+                     @if($errorModel) :class="{{ $errorModel }} ? 'outline-red-300 dark:outline-red-700 text-red-500 dark:text-red-400' : ''" @endif
+                >
+                    {{ $addon }}
+                </div>
             @endif
         </div>
+        
         @if($errorModel)
             <template x-if="{{ $errorModel }}">
-                <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4 dark:text-red-400">
-                <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM8 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" fill-rule="evenodd" />
+                <svg viewBox="0 0 16 16" fill="currentColor" class="pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4 dark:text-red-400">
+                    <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM8 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" fill-rule="evenodd" />
                 </svg>
             </template>
         @endif
     </div>
+    
     @if($errorModel)
         <template x-if="{{ $errorModel }}">
             <p id="{{ $inputId }}-error" class="mt-2 text-sm text-red-600 dark:text-red-400" x-text="{{ $errorModel }}"></p>

@@ -32,6 +32,8 @@
                         :value="$value"
                         :checked="$isChecked"
                         :aria-describedby="$description ? $id.'-description' : null"
+                        {{-- Esto permite que x-model="settings" funcione desde fuera --}}
+                        {{ $attributes->whereStartsWith('x-model') }}
                     />
                 </div>
             </div>

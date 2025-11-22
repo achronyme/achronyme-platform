@@ -2,17 +2,10 @@
     <x-three-column-tool>
         {{-- 🟢 Columna Izquierda: Configuración Global --}}
         <x-slot:leftSidebar>
-            {{-- 
-                GRID RESPONSIVO: 
-                - Por defecto (Móvil): 1 columna
-                - md (Tablet): 2 columnas (aprovecha el ancho completo)
-                - xl (Desktop): 1 columna (vuelve a ser sidebar)
-            --}}
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-6">
                 
-                {{-- Grupo 1: Selectores (Ocupa 1 celda en tablet) --}}
+                {{-- Grupo 1: Selectores --}}
                 <div class="space-y-6">
-                    {{-- Selección de Objetivo --}}
                     <x-app-ui.radio-list
                         legend="Objetivo"
                         name="objective_type"
@@ -23,7 +16,6 @@
                         x-model="objectiveType"
                     />
 
-                    {{-- Selección de Dimensiones (2D vs 3D) --}}
                     <x-app-ui.radio-list
                         legend="Dimensiones"
                         name="num_variables"
@@ -35,9 +27,8 @@
                     />
                 </div>
 
-                {{-- Grupo 2: Controles y Resultados (Ocupa la otra celda en tablet) --}}
+                {{-- Grupo 2: Zoom y Resultados --}}
                 <div class="space-y-6">
-                    {{-- Slider de Zoom --}}
                     <x-app-ui.slider
                         label="Zoom / Rango Ejes"
                         name="axis_range"
@@ -45,8 +36,7 @@
                         x-model.number="axisRange"
                     />
                     
-                    {{-- Tarjeta de Resultados --}}
-                    <div class="p-4 rounded-lg border bg-blue-50 border-blue-100 dark:bg-blue-900/20 dark:border-blue-800 transition-colors">
+                    <div class="p-4 rounded-lg border bg-blue-50 border-blue-100 dark:bg-blue-900/20 dark:border-blue-800 transition-colors h-full">
                         <h4 class="font-bold text-blue-800 dark:text-blue-300 mb-3 flex items-center gap-2">
                             <span class="text-xl">📊</span> Resultado Óptimo
                         </h4>
@@ -88,15 +78,14 @@
             </div>
         </x-slot>
 
-        {{-- 🔵 Centro: Visualización (Plotly) --}}
+        {{-- 🔵 Centro: Visualización --}}
         <div class="mb-8 h-full">
-            {{-- Ajuste de altura mínima para móviles y tablets --}}
             <div class="relative bg-slate-50 dark:bg-slate-800/50 p-1 rounded-lg h-full min-h-[400px] md:min-h-[500px] border border-slate-200 dark:border-slate-700 shadow-inner">
                 <div id="graphicalChart" class="w-full h-full min-h-[400px] md:min-h-[500px] rounded bg-white dark:bg-[#1e293b]"></div>
             </div>
         </div>
 
-        {{-- 🔴 Derecha: Construcción del Modelo Matemático --}}
+        {{-- 🔴 Derecha: Inputs --}}
         <x-slot:rightSidebar>
             <div class="space-y-8">
                 
@@ -122,7 +111,7 @@
 
                 {{-- 2. Restricciones --}}
                 <div>
-                    <div class="flex justify-between items-center mb-4 gap-2">
+                    <div class="flex justify-between items-center mb-4">
                         <div class="flex items-center gap-2">
                             <div class="p-1.5 bg-emerald-100 dark:bg-emerald-900/50 rounded-md text-emerald-600 dark:text-emerald-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -130,12 +119,9 @@
                             <h3 class="font-medium text-slate-900 dark:text-white">Restricciones</h3>
                         </div>
                         
-                        {{-- Botón "+ Agregar" mejorado: Más alto y legible --}}
-                        <x-app-ui.secondary-button type="button" @click="addConstraint()" class="flex space-x-2 items-center max-w-sm">
-                            <div class="flex space-x-2 items-center">
-                                <svg class="size-5 -ml-0.5" fill="currentColor"><use href="#icon-plus"></use></svg>
-                                <div>Agregar</div>
-                            </div>
+                        <x-app-ui.secondary-button type="button" @click="addConstraint()" class="py-2 px-3 text-sm flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Agregar
                         </x-app-ui.secondary-button>
                     </div>
 
@@ -143,7 +129,6 @@
                         <template x-for="(c, index) in constraints" :key="c.id">
                             <div class="relative bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors">
                                 
-                                {{-- Header de la Restricción --}}
                                 <div class="flex justify-between items-center mb-3">
                                     <span class="text-xs font-bold uppercase tracking-wider text-slate-400" x-text="'Restricción ' + (index + 1)"></span>
                                     <x-app-ui.danger-circular-button 
@@ -154,7 +139,6 @@
                                     />
                                 </div>
                                 
-                                {{-- Grid de Coeficientes --}}
                                 <div class="grid gap-2 mb-3" :class="numVariables === 3 ? 'grid-cols-3' : 'grid-cols-2'">
                                     <x-app-ui.input-addon label="" addon="x₁" x-model="c.x1" name="c_x1" placeholder="0" />
                                     <x-app-ui.input-addon label="" addon="x₂" x-model="c.x2" name="c_x2" placeholder="0" />
@@ -163,7 +147,6 @@
                                     </template>
                                 </div>
 
-                                {{-- Operador y Lado Derecho (RHS) --}}
                                 <div class="flex gap-2 items-center">
                                     <select x-model="c.operator" 
                                         class="block w-20 rounded-md border-0 py-1.5 text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-900 ring-1 ring-inset ring-slate-300 dark:ring-slate-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center font-bold cursor-pointer">
@@ -173,12 +156,7 @@
                                     </select>
 
                                     <div class="flex-1">
-                                        <x-app-ui.input-text 
-                                            label="" 
-                                            name="rhs" 
-                                            x-model="c.rhs" 
-                                            placeholder="Valor (b)" 
-                                        />
+                                        <x-app-ui.input-text label="" name="rhs" x-model="c.rhs" placeholder="Valor (b)" />
                                     </div>
                                 </div>
 
@@ -188,8 +166,8 @@
                 </div>
 
                 <div class="pt-4">
-                    {{-- Botón "Calcular" corregido: flex, items-center para alinear ícono y texto --}}
-                    <x-app-ui.button @click="calculate()" loading-text="Optimizando..." class="flex space-x-2 items-center">
+                    <x-app-ui.button @click="calculate()" loading-text="Optimizando..." class="w-full flex items-center justify-center gap-2 py-3 text-lg shadow-lg shadow-indigo-500/30">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         <span>Calcular Solución</span>
                     </x-app-ui.button>
                 </div>
