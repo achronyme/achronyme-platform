@@ -11,7 +11,7 @@ export default defineConfig({
                 'resources/js/ft/app.ts',
                 'resources/js/convolution/app.ts',
                 'resources/js/agents/app.ts',
-                'resources/js/optimization/graphical/tool-state.ts',
+                'resources/js/optimization/graphical/app.ts',
             ],
             refresh: true,
         }),

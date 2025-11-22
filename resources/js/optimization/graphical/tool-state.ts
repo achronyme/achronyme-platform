@@ -1,5 +1,5 @@
-import { GraphicalEngine, Constraint } from './graphical-engine';
-import { PlotlyAdapter } from './plotly-adapter'; // Asegúrate que el nombre del archivo sea correcto (plotly vs ploty)
+import { GraphicalEngine } from './graphical-engine';
+import { PlotlyAdapter } from './plotly-adapter';
 
 interface GraphicalState {
     isLoading: boolean;
