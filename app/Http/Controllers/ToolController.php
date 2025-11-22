@@ -38,4 +38,10 @@ class ToolController extends Controller
     {
         return view('tools.agents.index');
     }
+
+    public function graphicalMethod()
+    {
+        // Retorna la vista principal del módulo gráfico
+        return view('tools.optimization.graphical.index');
+    }
 }
